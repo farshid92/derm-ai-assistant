@@ -2,6 +2,7 @@
 data/
 *.zip
 *.tar
+*.keras
 *.tar.gz
 *.h5
 *.pth
