@@ -9,3 +9,4 @@ data/
 __pycache__/
 .env
 *.ipynb_checkpoints
+backend/model/skin_segmentation_unet.keras
