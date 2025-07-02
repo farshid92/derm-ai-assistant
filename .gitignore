@@ -7,6 +7,9 @@ data/
 *.h5
 *.pth
 *.pt
+*.png
+*.jpg
+*.jpeg
 __pycache__/
 .env
 *.ipynb_checkpoints
