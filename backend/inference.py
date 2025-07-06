@@ -6,7 +6,7 @@ import cv2
 import os
 
 #load model
-model = load_model("backend/model/skin_segmentation_unet.keras")
+model = load_model("backend/model/skin_segmentation_unet_fine_tuned_augmented2.keras")
 
 def preprocess_image(image_path, target_size=(128, 128)):
     img = Image.open(image_path).convert("RGB")
