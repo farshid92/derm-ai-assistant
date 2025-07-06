@@ -5,8 +5,18 @@ import numpy as np
 import io
 import uuid
 import tensorflow as tf
+import keras
 from keras.models import load_model
 
+
+
+# Define the custom metric function that was used during training
+@keras.saving.register_keras_serializable()
+def dice_coef(y_true, y_pred, smooth=1e-6):
+    y_true_f = tf.keras.backend.flatten(y_true)
+    y_pred_f = tf.keras.backend.flatten(y_pred)
+    intersection = tf.keras.backend.sum(y_true_f * y_pred_f)
+    return (2. * intersection + smooth) / (tf.keras.backend.sum(y_true_f) + tf.keras.backend.sum(y_pred_f) + smooth)
 
 
 app = FastAPI()
@@ -31,3 +41,7 @@ async def predict(file: UploadFile = File(...)):
     result_img.save(output_path)
 
     return FileResponse(output_path, media_type="image/png")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
