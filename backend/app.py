@@ -5,12 +5,12 @@ import numpy as np
 import io
 import uuid
 import tensorflow as tf
-from tensorflow.keras.models import load_model
+from keras.models import load_model
 
 
 
 app = FastAPI()
-model = load_model("backend/model/skin_segmentation_unet.keras")
+model = load_model("backend/model/skin_segmentation_unet_fine_tuned_augmented2.keras")
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
