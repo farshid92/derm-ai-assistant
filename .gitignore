@@ -14,3 +14,9 @@ __pycache__/
 .env
 *.ipynb_checkpoints
 backend/model/skin_segmentation_unet.keras
+
+# Virtual environments
+venv/
+venv311/
+env/
+.venv/
