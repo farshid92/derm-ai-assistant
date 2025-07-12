@@ -249,17 +249,16 @@ def single_image_page():
                         st.markdown("### 🔍 Detailed Analysis")
                         
                         # Create overlay
-                        original_array = np.array(original_image.resize((128, 128)))
-                        mask_resized = np.array(mask_image.resize((128, 128)))
-                        
-                        # Create overlay
-                        overlay = original_array.copy()
-                        if len(mask_resized.shape) == 3:
-                            mask_binary = mask_resized[:, :, 0] > 0
+                        original_array = np.array(original_image)
+                        mask_array = np.array(mask_image)
+                        # If mask is single channel, expand to 3 channels for overlay
+                        if len(mask_array.shape) == 2:
+                            mask_rgb = np.stack([mask_array]*3, axis=-1)
                         else:
-                            mask_binary = mask_resized > 0
+                            mask_rgb = mask_array
                         
-                        overlay[mask_binary] = [255, 0, 0]  # Red overlay for lesion
+                        overlay = original_array.copy()
+                        overlay[mask_rgb[..., 0] > 0] = [255, 0, 0]  # Red overlay for lesion
                         
                         # Create subplot
                         fig = make_subplots(
@@ -270,7 +269,7 @@ def single_image_page():
                         
                         # Add images to subplot
                         fig.add_trace(go.Image(z=original_array), row=1, col=1)
-                        fig.add_trace(go.Image(z=mask_resized), row=1, col=2)
+                        fig.add_trace(go.Image(z=mask_array), row=1, col=2)
                         fig.add_trace(go.Image(z=overlay), row=1, col=3)
                         
                         fig.update_layout(

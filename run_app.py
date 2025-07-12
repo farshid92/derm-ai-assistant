@@ -12,14 +12,22 @@ from pathlib import Path
 
 def check_dependencies():
     """Check if required packages are installed"""
-    required_packages = ['streamlit', 'fastapi', 'uvicorn', 'tensorflow', 'pillow', 'requests', 'plotly']
+    required_packages = [
+        ('streamlit', 'streamlit'),
+        ('fastapi', 'fastapi'),
+        ('uvicorn', 'uvicorn'),
+        ('tensorflow', 'tensorflow'),
+        ('pillow', 'PIL'),
+        ('requests', 'requests'),
+        ('plotly', 'plotly')
+    ]
     missing_packages = []
     
-    for package in required_packages:
+    for package_name, import_name in required_packages:
         try:
-            __import__(package)
+            __import__(import_name)
         except ImportError:
-            missing_packages.append(package)
+            missing_packages.append(package_name)
     
     if missing_packages:
         print(f"❌ Missing packages: {', '.join(missing_packages)}")

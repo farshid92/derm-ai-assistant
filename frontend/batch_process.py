@@ -150,16 +150,15 @@ def display_batch_results(results):
                 
                 with col3:
                     # Create overlay
-                    original_array = np.array(result['original_image'].resize((128, 128)))
-                    mask_resized = np.array(result['mask_image'].resize((128, 128)))
-                    
-                    overlay = original_array.copy()
-                    if len(mask_resized.shape) == 3:
-                        mask_binary = mask_resized[:, :, 0] > 0
+                    original_array = np.array(result['original_image'])
+                    mask_array = np.array(result['mask_image'])
+                    # If mask is single channel, expand to 3 channels for overlay
+                    if len(mask_array.shape) == 2:
+                        mask_rgb = np.stack([mask_array]*3, axis=-1)
                     else:
-                        mask_binary = mask_resized > 0
-                    
-                    overlay[mask_binary] = [255, 0, 0]
+                        mask_rgb = mask_array
+                    overlay = original_array.copy()
+                    overlay[mask_rgb[..., 0] > 0] = [255, 0, 0]
                     st.image(overlay, caption="Overlay", use_column_width=True)
                 
                 # Metrics
